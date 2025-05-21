@@ -40,13 +40,6 @@ const timer = 19; // in ms, actual timer duration is higher
 const cartesiaApiKey = process.env.CARTESIA_API_KEY;
 const { CartesiaClient } = require("@cartesia/cartesia-js");;
 
-// const elevenLabsApiKey = process.env.ELEVENLABS_API_KEY;
-// const elevenLabsVoiceId = process.env.ELEVENLABS_VOICE_ID;
-// const elevenLabsModel = process.env.ELEVENLABS_MODEL;
-
-// const elevenLabsInactivityTimer = 180; // in seconds, 180 max, default is 20
-// const elevenLabsKeepAliveTimer = 150000; // in milliseconds, must be less than elevenLabsInactivityTimer value
-
 //--- Streaming timer calculation ---
 
 let prevTime = Date.now();
