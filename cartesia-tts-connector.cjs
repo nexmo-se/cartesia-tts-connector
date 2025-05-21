@@ -238,14 +238,10 @@ app.ws('/socket', async (ws, req) => {
     
     if (typeof msg === "string") {
       console.log(">>> Vonage Websocket message:", msg);
-      // send the TTS request to Cartesia here
-
-
     }
     // else {
     //   //-- Ignore possible audio payload from Vonage platform for this use case
     // }
-
   });
 
   //--
@@ -254,7 +250,6 @@ app.ws('/socket', async (ws, req) => {
 
     wsVgOpen = false;
     console.log("\n>>> Vonage WebSocket closed");
-
 
     // close ws to Cartesia
 
