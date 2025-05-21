@@ -1,14 +1,10 @@
-# Interacting via Voice with an OpenAI LLM using Vonage Voice/Video API, Deepgram ASR and ElevenLabs TTS
+# Cartesia TTS Connector
 
 ## What this Connector application does
 
-This Connector application allows [Voice](https://www.vonage.com/communications-apis/voice/) or [Video](https://www.vonage.com/communications-apis/video/) calls to interact via voice with an OpenAI LLM using [OpenAI Text Generation API](https://platform.openai.com/docs/guides/text?api-mode=chat), [Deepgram STT](https://deepgram.com/product/speech-to-text), and [ElevenLabs TTS](https://elevenlabs.io/text-to-speech).
+This Connector application allows [Voice](https://www.vonage.com/communications-apis/voice/) or [Video](https://www.vonage.com/communications-apis/video/) calls to use Cartesia TTS engine.
 
-A User interacts with the OpenAI LLM (aka Agent) using voice. Real-time transcripts of what the User says as well what the Agent says are also returned.
-
-Barge-in is supported, meaning if User resumes speaking, an Agent voice response in progress would be interrupted, and the response to the new request is played.
-
-Vonage API platform supports different **voice channels** for connecting to the Agent, including:
+Vonage API platform supports different **voice channels** for getting TTS from Cartesia TTS engine, including:
 - Public Switched Telephone Network (**PSTN**), e.g. cell phones, landline phones, VoIP phones/applications connecting via PSTN,
 - Session Initiation Protocol (**SIP**), e.g. SIP trunking, SIP from Contact Center, [SIP Interconnect](https://tokbox.com/developer/guides/sip) from Vonage Video API clients,
 - Vonage **Voice WebRTC clients** (Web, iOS, Android),
@@ -17,46 +13,15 @@ Vonage API platform supports different **voice channels** for connecting to the 
 
 ## How this Connector application works
 
-See the diagram **_dg-oai-11l-architecture-overview.png_**.</br>
+Speech synthesis received from Cartesia are sent to the User through the same WebSocket leg and the original voice channel leg.</br>
 
-In this diagram, the Connector application is shown on the left side of the diagram.</br>
-
-First, a call is established with the User, it can be an inbound call or an outbound call, that initial leg maybe of type PSTN, SIP, WebRTC, or WebSocket</br>
-then a [WebSocket](https://developer.vonage.com/en/voice/voice-api/concepts/websockets) leg is established with the Connector which sends the audio from the User to Deepgram for STT (Speech-to-Text).</br>
-
-User's speech transcripts received from Deegram are sent to OpenAI (LLM).</br>
-
-Text responses received from OpenAI are sent to ElevenLabs for TTS (Text-to-Speech).</br>
-
-Speech synthesis received from ElevenLabs are sent to the User through the same WebSocket leg and the original voice channel leg.</br>
-
-Optionally, User's original speech transcripts and Agent's text responses are forwarded to the Voice API application.</br>
-
-See https://github.com/nexmo-se/voice-to-ai-engines for a **sample Voice API application** using this Connector code to stream audio from voice calls to Deepgram ASR engine.
+See https://github.com/nexmo-se/agent-drop-off-tts-to-customer-vm for a **sample Voice API application** using this Connector code to stream TTS audio from Cartesia TTS engine to established voice or video calls.
 
 ## Prerequisites
 
-### Get your credentials from Deepgram
+### Get your API key from Cartesia
 
-Sign up with or log in to [Deepgram](https://deepgram.com).</br>
-
-Create or use an existing Deepgram API key,</br>
-take note of it (as it will be needed as **`DEEPGRAM_API_KEY`** in the next section).</br>
-
-### Get your credentials from OpenAI
-
-Sign up with or log in to [OpenAI](https://auth.openai.com/log-in).</br>
-
-Create or use an existing OpenAI [API key](https://platform.openai.com/settings/organization/api-keys),</br>
-take note of it (as it will be needed as **`OPENAI_API_KEY`** in the next section).</br>
-
-### Get your credentials from ElevenLabs
-
-Sign up with or log in to [ElevenLabs](https://elevenlabs.io/app/sign-in).</br>
-
-Create or use an existing ElevenLabs [API key](https://elevenlabs.io/app/settings/api-keys),</br>
-take note of it (as it will be needed as **`ELEVENLABS_API_KEY`** in the next section).</br>
-
+// text to be added here
 
 ## Deployment
 
@@ -94,10 +59,8 @@ Copy the `.env.example` file over to a new file called `.env`:
 ```bash
 cp .env.example .env
 ```
-Update parameter arguments in .env file as per previous sections contents, including:<br>
-**`DEEPGRAM_API_KEY`**<br>
-**`OPENAI_API_KEY`**<br>
-**`ELEVENLABS_API_KEY`**<br>
+Update the parameter argument in .env file as per previous sections contents:<br>
+**`CARTESIA_API_KEY`**<br>
 
 
 Install necessary node modules with the command:<br>
@@ -107,7 +70,7 @@ npm install
 
 Launch this Connector application:<br>
 ```bash
-node dg-oai-11l-connector.cjs
+node cartesia-tts-connector.cjs
 ```
 Default local (not public!) of this Connector application's listening `port` is: 6000.
 
@@ -115,7 +78,7 @@ Make sure ngrok is running as per previous section.
 
 #### Next steps - Voice API Application
 
-**Either** follow instructions in the [**sample Voice API Application**](https://github.com/nexmo-se/voice-to-ai-engines) repository for the next steps,
+**Either** follow instructions in the [**sample Voice API Application**](https://github.com/nexmo-se/agent-drop-off-tts-to-customer-vm) repository for the next steps,
 
 **or** instead update and use **your existing Voice API application** to connect voice calls via [WebSockets](https://developer.vonage.com/en/voice/voice-api/concepts/websockets) to this Connector Application.
 
